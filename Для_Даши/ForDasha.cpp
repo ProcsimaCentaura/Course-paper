@@ -1,0 +1,29 @@
+﻿#include "Header.h"
+
+int main() {
+    // Для Windows: настройка кодировки
+    setlocale(LC_ALL, "ru_RU.UTF-8");
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+
+    SpaseAtlas* atl = createSpaseAtlas(10);
+    add_test_objects(atl);
+    if (!atl) {
+        wprintf(L"Ошибка создания атласа!\n");
+        return 1;
+    }
+
+    if (!save_spase_atlas(atl, "universe.dat")) {
+        printf("Save failed!\n");
+    }
+
+    SpaseAtlas* loaded = load_spase_atlas("universe.dat");
+    if (loaded) {
+        print_table(loaded);
+        deleteSpaseAtlas(loaded);
+    }
+
+    char s;
+    scanf_s("%c", &s);
+    return 0;
+}

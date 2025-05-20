@@ -1,5 +1,5 @@
 ﻿#pragma once
-char get_object_symbol(TypeOfObjecte type) {
+inline static char get_object_symbol(TypeOfObjecte type) {
     switch (type) {
     case OBJ_STAR:       return '*';
     case OBJ_BLACKHOLE:  return '0';
@@ -12,19 +12,19 @@ char get_object_symbol(TypeOfObjecte type) {
 }
 
 // Конвертация прямого восхождения в градусы
-double ascent_to_degrees(struct directAscent a) {
+inline static double ascent_to_degrees(struct directAscent a) {
     return (a.hour + a.minutes / 60.0 + a.seconds / 3600.0) * 15.0;
 }
 
 // Получение размеров терминала
-void get_terminal_size(int* cols, int* rows) {
+inline static void get_terminal_size(int* cols, int* rows) {
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
     *cols = csbi.srWindow.Right - csbi.srWindow.Left + 1;
     *rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 }
 
-void set_cursor_position(int x, int y) {
+inline static void set_cursor_position(int x, int y) {
     COORD coord = { x, y };
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }

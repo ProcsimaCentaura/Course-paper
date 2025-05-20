@@ -15,13 +15,18 @@ int main() {
 
     if (!save_spase_atlas(atl, "universe.dat")) {
         printf("Save failed!\n");
+        deleteSpaseAtlas(atl);
     }
 
     SpaseAtlas* loaded = load_spase_atlas("universe.dat");
     if (loaded) {
         print_table(loaded);
-        deleteSpaseAtlas(loaded);
+
     }
+
+    render_atlas(loaded);
+    deleteSpaseAtlas(loaded);
+    loaded = nullptr;
 
     char s;
     scanf_s("%c", &s);

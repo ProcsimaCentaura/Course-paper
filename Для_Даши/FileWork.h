@@ -37,7 +37,7 @@ static void load_spase_object(SpaseObgectDeterminant* obj, FILE* fp) {
     fread(&obj->range, sizeof(double), 1, fp);
     fread(&obj->mass, sizeof(double), 1, fp);
 
-    // Загрузка INFO
+    // Загрузка INFO^^ Здесь крылась мощная ошибка, я пока не проверял, но тем не менее.
     fread(&obj->info.size, sizeof(int), 1, fp);
     if (obj->info.size > 0) {
         obj->info.info = (char*)malloc(obj->info.size);
@@ -46,24 +46,24 @@ static void load_spase_object(SpaseObgectDeterminant* obj, FILE* fp) {
 }
 
 // Функции для конкретных типов объектов
-void save_star(const Star* obj, FILE* fp) {
+inline static void save_star(const Star* obj, FILE* fp) {
     save_spase_object(&obj->tipe, fp);
     write_wstring(obj->starClass, fp);
     fwrite(&obj->stellarMagnitude, sizeof(double), 1, fp);
 }
 
 
-void save_blackhole(const BlackHole* obj, FILE* fp) {
+inline static void save_blackhole(const BlackHole* obj, FILE* fp) {
     save_spase_object(&obj->tipe, fp);
     write_wstring(obj->blackHoleClass, fp);
 }
 
-void save_nebula(const Nebula* obj, FILE* fp) {
+inline static void save_nebula(const Nebula* obj, FILE* fp) {
     save_spase_object(&obj->tipe, fp);
     write_wstring(obj->nebulaClass, fp);
 }
 
-void save_pulsar(const Pulsar* obj, FILE* fp) {
+inline static void save_pulsar(const Pulsar* obj, FILE* fp) {
     save_spase_object(&obj->tipe, fp);
     fwrite(&obj->pulsarFrequensy, sizeof(double), 1, fp);
     fwrite(&obj->stellarMagnitude, sizeof(double), 1, fp);
@@ -74,7 +74,7 @@ void save_galaxy(const Galaxy* obj, FILE* fp) {
     fwrite(&obj->CountStar, sizeof(double), 1, fp);
 }
 
-void save_starcluster(const StarCluster* obj, FILE* fp) {
+inline static void save_starcluster(const StarCluster* obj, FILE* fp) {
     save_spase_object(&obj->tipe, fp);
     fwrite(&obj->CountStar, sizeof(double), 1, fp);
 }
@@ -84,7 +84,7 @@ void save_starcluster(const StarCluster* obj, FILE* fp) {
 
 
 
-Star* load_star(FILE* fp) {
+inline static Star* load_star(FILE* fp) {
     Star* obj = (Star*)malloc(sizeof(Star));
     load_spase_object(&obj->tipe, fp);
     obj->starClass = read_wstring(fp);
@@ -92,21 +92,21 @@ Star* load_star(FILE* fp) {
     return obj;
 }
 
-BlackHole* load_blackHole(FILE* fp) {
+inline static BlackHole* load_blackHole(FILE* fp) {
     BlackHole* obj = (BlackHole*)malloc(sizeof(BlackHole));
     load_spase_object(&obj->tipe, fp);
     obj->blackHoleClass = read_wstring(fp);
     return obj;
 }
 
-Nebula* load_nebula(FILE* fp) {
+inline static Nebula* load_nebula(FILE* fp) {
     Nebula* obj = (Nebula*)malloc(sizeof(Nebula));
     load_spase_object(&obj->tipe, fp);
     obj->nebulaClass = read_wstring(fp);
     return obj;
 }
 
-Pulsar* load_pulsar(FILE* fp) {
+inline static Pulsar* load_pulsar(FILE* fp) {
     Pulsar* obj = (Pulsar*)malloc(sizeof(Pulsar));
     load_spase_object(&obj->tipe, fp);
     fread(&obj->pulsarFrequensy, sizeof(double), 1, fp);
@@ -114,14 +114,14 @@ Pulsar* load_pulsar(FILE* fp) {
     return obj;
 }
 
-Galaxy* load_galaxy(FILE* fp) {
+inline static Galaxy* load_galaxy(FILE* fp) {
     Galaxy* obj = (Galaxy*)malloc(sizeof(Galaxy));
     load_spase_object(&obj->tipe, fp);
     fread(&obj->CountStar, sizeof(double), 1, fp);
     return obj;
 }
 
-StarCluster* load_starcluster(FILE* fp) {
+inline static StarCluster* load_starcluster(FILE* fp) {
     StarCluster* obj = (StarCluster*)malloc(sizeof(StarCluster));
     load_spase_object(&obj->tipe, fp);
     fread(&obj->CountStar, sizeof(double), 1, fp);

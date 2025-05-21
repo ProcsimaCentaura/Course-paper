@@ -12,7 +12,8 @@ inline static char get_object_symbol(TypeOfObjecte type) {
 }
 
 // Конвертация прямого восхождения в градусы
-inline static double ascent_to_degrees(struct directAscent a) {
+//Функция полезная, потребовалась в SortByAscent по этоме не static
+inline double ascent_to_degrees(directAscent a) {
     return (a.hour + a.minutes / 60.0 + a.seconds / 3600.0) * 15.0;
 }
 

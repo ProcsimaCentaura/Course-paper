@@ -24,7 +24,24 @@ int main() {
 
     }
 
-    render_atlas(loaded);
+    //render_atlas(loaded);
+
+    sortOfAtlass(loaded, SORT_BY_MASS);
+
+    print_table(loaded);
+
+    sortOfAtlass(loaded, SORT_BY_NAME);
+
+    print_table(loaded);
+
+    sortOfAtlass(loaded, SORT_BY_RANGE);
+
+    print_table(loaded);
+
+    sortOfAtlass(loaded, SORT_BY_ASCENT);
+
+    print_table(loaded);
+
     deleteSpaseAtlas(loaded);
     loaded = nullptr;
 

@@ -1,8 +1,8 @@
 #pragma once
 //Структура для массива, с помощью нее, можно хранить объект
 struct ObjacteTipe {
-    TypeOfObjecte type;
-    SpaseObgectDeterminant* Objecte;
+    TypeOfObjecte type;//Перечисоение
+    SpaseObgectDeterminant* Objecte;//Указатель на объект
 };
 
 struct SpaseAtlas {
@@ -10,6 +10,30 @@ struct SpaseAtlas {
     int size;
     int copiseti;
 };
+
+static void printTipe(const ObjacteTipe* tipe) {
+    switch (tipe->type)
+    {
+    case OBJ_NULL:
+        printf("неизвестный, но иннициированный объект");
+            break;
+    case OBJ_STAR:
+        printf("звезда");
+    case OBJ_BLACKHOLE:
+        printf("черная дыра");
+    case OBJ_NEBULA:
+        printf("туманность");
+    case OBJ_PULSAR:
+        printf("пульсар");
+    case OBJ_GALAXY:
+        printf("галлактика");
+    case OBJ_STARCLASTER:
+        printf("звездное скопление");
+    default:
+        printf("неизвестный неинициированный тип");
+        break;
+    }
+}
 
 SpaseAtlas* createSpaseAtlas(int size = 10) {
     SpaseAtlas* arr = (SpaseAtlas*)malloc(sizeof(SpaseAtlas));
@@ -151,5 +175,122 @@ void deleteSpaseAtlas(SpaseAtlas* arr) {
     arr->unit = NULL;
     // Освобождаем сам атлас
     free(arr);
+    arr = nullptr;
 }
 
+
+//Функции невозможно перегрузить по типу возвращаемого значения. По этому созданы
+// Типы функций для каждого возможного элемента.
+//Функция получения звезды по индексу
+Star* get_star(SpaseAtlas* arr, int index) {
+    if (index >= 0 && index < arr->copiseti) {
+        if (arr->unit[index].type == OBJ_STAR) {
+            return (Star*)arr->unit[index].Objecte;
+        }
+        else {
+            printf("\nНеверный возвращаемый объект. Это не звезда.\n Это: " );
+            printTipe(&arr->unit[index]);
+            return (Star*)arr->unit[index].Objecte;//Вовращаем запрашиваемый объект отметив, что это не тот объект который хотел пользователь.
+        }
+    }
+    else {
+        printf("Index out of bounds\n");
+        return NULL;
+    }
+}
+
+//Функция получения черной дыры по индексу
+BlackHole* get_blackHole(SpaseAtlas* arr, int index) {
+    if (index >= 0 && index < arr->copiseti) {
+        if (arr->unit[index].type == OBJ_BLACKHOLE) {
+            return (BlackHole*)arr->unit[index].Objecte;
+        }
+        else {
+            printf("\nНеверный возвращаемый объект. Это не черная дыра.\n Это: ");
+            printTipe(&arr->unit[index]);
+            return (BlackHole*)arr->unit[index].Objecte;//Вовращаем запрашиваемый объект отметив, что это не тот объект который хотел пользователь.
+        }
+    }
+    else {
+        printf("Index out of bounds\n");
+        return NULL;
+    }
+}
+
+Nebula* get_nebula(SpaseAtlas* arr, int index) {
+    if (index >= 0 && index < arr->copiseti) {
+        if (arr->unit[index].type == OBJ_NEBULA) {
+            return (Nebula*)arr->unit[index].Objecte;
+        }
+        else {
+            printf("\nНеверный возвращаемый объект. Это не туманность.\n Это: ");
+            printTipe(&arr->unit[index]);
+            return (Nebula*)arr->unit[index].Objecte;//Вовращаем запрашиваемый объект отметив, что это не тот объект который хотел пользователь.
+        }
+    }
+    else {
+        printf("Index out of bounds\n");
+        return NULL;
+    }
+}
+
+Pulsar* get_pulsar(SpaseAtlas* arr, int index) {
+    if (index >= 0 && index < arr->copiseti) {
+        if (arr->unit[index].type == OBJ_PULSAR) {
+            return (Pulsar*)arr->unit[index].Objecte;
+        }
+        else {
+            printf("\nНеверный возвращаемый объект. Это не пульсар.\n Это: ");
+            printTipe(&arr->unit[index]);
+            return (Pulsar*)arr->unit[index].Objecte;//Вовращаем запрашиваемый объект отметив, что это не тот объект который хотел пользователь.
+        }
+    }
+    else {
+        printf("Index out of bounds\n");
+        return NULL;
+    }
+}
+
+Galaxy* get_galaxy(SpaseAtlas* arr, int index) {
+    if (index >= 0 && index < arr->copiseti) {
+        if (arr->unit[index].type == OBJ_GALAXY) {
+            return (Galaxy*)arr->unit[index].Objecte;
+        }
+        else {
+            printf("\nНеверный возвращаемый объект. Это не галлактика.\n Это: ");
+            printTipe(&arr->unit[index]);
+            return (Galaxy*)arr->unit[index].Objecte;//Вовращаем запрашиваемый объект отметив, что это не тот объект который хотел пользователь.
+        }
+    }
+    else {
+        printf("Index out of bounds\n");
+        return NULL;
+    }
+}
+
+StarCluster* get_starCluster(SpaseAtlas* arr, int index) {
+    if (index >= 0 && index < arr->copiseti) {
+        if (arr->unit[index].type == OBJ_STARCLASTER) {
+            return (StarCluster*)arr->unit[index].Objecte;
+        }
+        else {
+            printf("\nНеверный тип возвращаемого объекта. Это не звездное скопление.\n Это: ");
+            printTipe(&arr->unit[index]);
+            return (StarCluster*)arr->unit[index].Objecte;//Вовращаем запрашиваемый объект отметив, что это не тот объект который хотел пользователь.
+        }
+    }
+    else {
+        printf("Index out of bounds\n");
+        return NULL;
+    }
+}
+
+SpaseObgectDeterminant* get_object(SpaseAtlas* arr, int index) {
+    if (index >= 0 && index < arr->copiseti) {
+        return (SpaseObgectDeterminant*)arr->unit[index].Objecte;
+    }
+    else {
+        printf("Index out of bounds\n");
+        return NULL;
+    }
+}

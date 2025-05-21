@@ -135,6 +135,7 @@
     <ClInclude Include="Header.h" />
     <ClInclude Include="PrintTable.h" />
     <ClInclude Include="Rendering.h" />
+    <ClInclude Include="SerchAndSort.h" />
     <ClInclude Include="SpaseAtlas.h" />
     <ClInclude Include="StarsWork.h" />
     <ClInclude Include="Test.h" />

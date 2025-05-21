@@ -5,6 +5,7 @@
 #include <locale.h>
 #include <wchar.h>
 #include <windows.h>
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 #pragma pack(push, 1) // Важно для бинарной совместимости
@@ -46,4 +47,5 @@
 #include "Rendering.h"
 #include "PrintTable.h"
 #include "FileWork.h"
+#include "SerchAndSort.h"
 #include "Test.h"

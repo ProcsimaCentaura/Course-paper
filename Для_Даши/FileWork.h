@@ -177,16 +177,16 @@ int save_spase_atlas(const SpaseAtlas* atlas, const char* filename) {
 SpaseAtlas* load_spase_atlas(const char* filename) {
     FILE* fp;
     fopen_s(&fp, filename, "rb");
-    if (!fp) return NULL;
+    if (!fp) return nullptr;
 
     // Проверка заголовка
     char header[8] = { 0 };
     fread(header, sizeof(char), 7, fp);
     if (memcmp(header, "SPASEAT", 7) != 0) {
         fclose(fp);
-        return NULL;
+        return nullptr;
     }
-
+    //Не переписать, так как в
     SpaseAtlas* atlas = (SpaseAtlas*)malloc(sizeof(SpaseAtlas));
     fread(&atlas->size, sizeof(int), 1, fp);
     fread(&atlas->copiseti, sizeof(int), 1, fp);

@@ -13,7 +13,6 @@ wchar_t* get_wstring(int max_len) {
     if (!buffer) return NULL;
     fflush(stdin);
     fgetws(buffer, max_len, stdin);
-    fflush(stdin);
     size_t len = wcslen(buffer);
     if (len > 0 && buffer[len - 1] == L'\n')
         buffer[len - 1] = L'\0';
@@ -26,7 +25,6 @@ char* get_string(int max_len) {
     if (!buffer) return NULL;
     fflush(stdin);
     fgets(buffer, max_len, stdin);
-    fflush(stdin);
     size_t len = strlen(buffer);
     if (len > 0 && buffer[len - 1] == L'\n')
         buffer[len - 1] = L'\0';
@@ -63,69 +61,76 @@ ObjacteTipe* create_object_menu() {
     directAscent ascent;
     double declination, range, mass;
     INFO info = { NULL, 0 };
-
+    fflush(stdin);
     wprintf(L"\nВведите общие параметры:\n");
 
     // Ввод имени
+    fflush(stdin);
     wprintf(L"Название объекта (макс 50 символов): ");
     name = get_wstring(50);
 
     // Прямое восхождение
+    fflush(stdin);
     wprintf(L"\nПрямое восхождение:\n");
     ascent = input_direct_ascent();
 
     // Склонение
+    fflush(stdin);
     wprintf(L"Склонение (-90 до 90): ");
     scanf_s("%lf", &declination);
 
     // Расстояние
+    fflush(stdin);
     wprintf(L"Расстояние (в световых годах): ");
     scanf_s("%lf", &range);
 
     // Масса
+    fflush(stdin);
     wprintf(L"Масса (в солнечных массах): ");
     scanf_s("%lf", &mass);
     fflush(stdin);
+
+    ObjacteTipe* OBJ;
+    OBJ = (ObjacteTipe*)malloc(sizeof(ObjacteTipe));
 
     // Специфичные поля
     switch (choice) {
     case 1: { // Star
         wchar_t* star_class;
         double magnitude;
-
+        fflush(stdin);
         wprintf(L"\nВведите класс звезды (до 3 символов): ");
         star_class = get_wstring(3);
-
+        fflush(stdin);
         wprintf(L"Звездная величина: ");
         scanf_s("%lf", &magnitude);
         fflush(stdin);
 
-        ObjacteTipe* STAR;
-        STAR = (ObjacteTipe*)malloc(sizeof(ObjacteTipe));
-        STAR->Objecte = (SpaseObgectDeterminant*)createOfStar(name, range, magnitude, star_class,
+       
+        OBJ->Objecte = (SpaseObgectDeterminant*)createOfStar(name, range, magnitude, star_class,
             declination, ascent, mass, info);;
-        STAR->type = OBJ_STAR;
+        OBJ->type = OBJ_STAR;
         free(star_class);
-        return STAR;
+
     }
 
     case 2: { // Black Hole
         wchar_t* bh_class;
-
+        fflush(stdin);
         wprintf(L"\nВведите класс черной дыры (до 50 символов): ");
         bh_class = get_wstring(50);
         ObjacteTipe* BH;
         BH = (ObjacteTipe*)malloc(sizeof(ObjacteTipe));
-        BH->Objecte = (SpaseObgectDeterminant*)createOfBlackHole(name, range, bh_class,
+        OBJ->Objecte = (SpaseObgectDeterminant*)createOfBlackHole(name, range, bh_class,
             declination, ascent, mass, info);;
-        BH->type = OBJ_BLACKHOLE;
+        OBJ->type = OBJ_BLACKHOLE;
         free(bh_class);
-        return BH;
+
     }
 
     case 3: { // Nebula
         wchar_t* nebula_class;
-
+        fflush(stdin);
         wprintf(L"\nВведите класс туманности (до 100 символов): ");
         nebula_class = get_wstring(100);
         
@@ -135,55 +140,44 @@ ObjacteTipe* create_object_menu() {
             declination, ascent, mass, info);;
         NEB->type = OBJ_NEBULA;
         free(nebula_class);
-        return NEB;
+
     }
 
     case 4: { // Pulsar
         double frequency, magnitude;
-
-        wprintf(L"\nВведите частоту пульсара (Гц): ");
-        scanf_s("%lf", &frequency);
-
-        wprintf(L"Звездная величина: ");
-        scanf_s("%lf", &magnitude);
+        fflush(stdin);
+        frequency = safe_get_double(L"\nВведите частоту пульсара (Гц): ", 0.0, DBL_MAX);
+        fflush(stdin);
+        magnitude = safe_get_double(L"Звездная величина: ", 0.0, DBL_MAX);
         fflush(stdin);
 
-        ObjacteTipe* PUL;
-        PUL = (ObjacteTipe*)malloc(sizeof(ObjacteTipe));
-        PUL->Objecte = (SpaseObgectDeterminant*)createOfPulsar(name, range, declination, ascent, mass,
+       
+        OBJ->Objecte = (SpaseObgectDeterminant*)createOfPulsar(name, range, declination, ascent, mass,
             frequency, magnitude, info);
-        PUL->type = OBJ_NEBULA;
+        OBJ->type = OBJ_NEBULA;
 
-        return PUL;
+
     }
 
     case 5: { // Galaxy
         double count_stars;
-
-        wprintf(L"\nВведите предполагаемое количество звезд: ");
-        scanf_s("%lf", &count_stars);
         fflush(stdin);
-        ObjacteTipe* GAL;
-        GAL = (ObjacteTipe*)malloc(sizeof(ObjacteTipe));
-        GAL->Objecte = (SpaseObgectDeterminant*)createOfGalaxy(name, range, declination, ascent, mass,
+        count_stars = safe_get_double(L"\nВведите предполагаемое количество звезд: ", 0.0, DBL_MAX);
+
+        OBJ->Objecte = (SpaseObgectDeterminant*)createOfGalaxy(name, range, declination, ascent, mass,
             count_stars, info);
-        GAL->type = OBJ_GALAXY;
-        return GAL;
+        OBJ->type = OBJ_GALAXY;
+
     }
 
     case 6: { // Star Cluster
         unsigned long count_stars;
-
-        wprintf(L"\nВведите количество звезд: ");
-        scanf_s("%lu", &count_stars);
         fflush(stdin);
-
-        ObjacteTipe* CLU;
-        CLU = (ObjacteTipe*)malloc(sizeof(ObjacteTipe));
-        CLU->Objecte = (SpaseObgectDeterminant*)createOfStarCluster(name, range, declination, ascent, mass,
+        count_stars = safe_get_double(L"\nВведите количество звезд: ", 0.0, INT_MAX);
+        OBJ->Objecte = (SpaseObgectDeterminant*)createOfStarCluster(name, range, declination, ascent, mass,
             count_stars, info);
-        CLU->type = OBJ_STARCLASTER;
-        return CLU;
+        OBJ->type = OBJ_STARCLASTER;
+
     }
 
     default:
@@ -191,6 +185,7 @@ ObjacteTipe* create_object_menu() {
         free(name);
         return NULL;
     }
+    free(name);
 }
 
 void DestroyEllementMenu(SpaseAtlas* ATL) {
@@ -237,6 +232,7 @@ enum CHOISE
 void clear_input_buffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
+    fflush(stdin);
 }
 
 int safe_get_int(const wchar_t* prompt, int min_val, int max_val) {

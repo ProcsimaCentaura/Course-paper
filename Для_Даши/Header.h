@@ -2,10 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <locale.h>
+#include <locale.h>//Требуется для unicode(мне кажется он не сработал)
 #include <wchar.h>
-#include <windows.h>
-#define _USE_MATH_DEFINES
+#include <windows.h>//Требуется для рендера(размер консоли)
+#define _USE_MATH_DEFINES//Возможно и без них можно обойтись, но пока не убираю
 #include <math.h>
 
 #pragma pack(push, 1) // Важно для бинарной совместимости
@@ -49,3 +49,4 @@
 #include "FileWork.h"
 #include "SerchAndSort.h"
 #include "Test.h"
+#include "Menu.h"

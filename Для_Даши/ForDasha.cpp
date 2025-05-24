@@ -24,25 +24,19 @@ int main() {
 
     }
 
-    //render_atlas(loaded);
+    render_atlas(loaded);
 
-    sortOfAtlass(loaded, SORT_BY_MASS);
-
-    print_table(loaded);
-
-    sortOfAtlass(loaded, SORT_BY_NAME);
+    sortOfAtlass(loaded, SORT_PULSAR_BY_PULSAR_FREQUENSY);
 
     print_table(loaded);
 
-    sortOfAtlass(loaded, SORT_BY_RANGE);
+    SpaseAtlas* ATL = SerchInDiapazone(loaded, SERCH_BY_MASS, 100, 1000);
 
-    print_table(loaded);
+    print_table(ATL);
 
-    sortOfAtlass(loaded, SORT_BY_ASCENT);
+    //deleteSpaseAtlas(ATL);
 
-    print_table(loaded);
-
-    deleteSpaseAtlas(loaded);
+    deleteSpaseAtlas(loaded);//Повторное удаление вызывает ошибку. ОСТОРОЖНО!!!
     loaded = nullptr;
 
     char s;

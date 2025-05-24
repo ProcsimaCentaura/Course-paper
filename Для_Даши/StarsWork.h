@@ -243,3 +243,5 @@ StarCluster* createOfStarCluster(const wchar_t* name, double range,
 	return starCluster;
 }
 
+
+

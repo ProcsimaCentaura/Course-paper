@@ -63,6 +63,15 @@ void push_Back(SpaseAtlas* arr, TypeOfObjecte type, void* obj) {
     arr->copiseti++;
 }
 
+void push_Back(SpaseAtlas* arr, ObjacteTipe &objT) {
+    if (arr->copiseti >= arr->size) {
+        arr->size *= 2;
+        arr->unit = (ObjacteTipe*)realloc(arr->unit, arr->size * sizeof(ObjacteTipe));
+    }
+    arr->unit[arr->copiseti] = objT;
+    arr->copiseti++;
+}
+
 //Функция для удаления элемента из массива
 void pop_Back(SpaseAtlas* arr) {
     if (arr->copiseti > 0) {
@@ -145,6 +154,7 @@ void deleteSpaseAtlas(SpaseAtlas* arr) {
     if (!arr) return;
     // Освобождаем все объекты в массиве
     for (int i = 0; i < arr->copiseti; ++i) {
+        if (!arr->unit[i].Objecte) continue;
         switch (arr->unit[i].type) {
         case OBJ_STAR:
             free((Star*)arr->unit[i].Objecte);
@@ -293,4 +303,49 @@ SpaseObgectDeterminant* get_object(SpaseAtlas* arr, int index) {
         printf("Index out of bounds\n");
         return NULL;
     }
+}
+
+// Функция для удаления элемента по индексу со сдвигом
+void removeAt(SpaseAtlas* arr, int index) {
+    if (index < 0 || index >= arr->copiseti) {
+        printf("Ошибка: Недопустимый индекс\n");
+        return;
+    }
+
+    // Освобождаем память удаляемого объекта
+    switch (arr->unit[index].type) {
+    case OBJ_STAR:
+        free((Star*)arr->unit[index].Objecte);
+        break;
+    case OBJ_BLACKHOLE:
+        free((BlackHole*)arr->unit[index].Objecte);
+        break;
+    case OBJ_NEBULA:
+        free((Nebula*)arr->unit[index].Objecte);
+        break;
+    case OBJ_PULSAR:
+        free((Pulsar*)arr->unit[index].Objecte);
+        break;
+    case OBJ_GALAXY:
+        free((Galaxy*)arr->unit[index].Objecte);
+        break;
+    case OBJ_STARCLASTER:
+        free((StarCluster*)arr->unit[index].Objecte);
+        break;
+    default:
+        free(arr->unit[index].Objecte);
+        break;
+    }
+
+    // Сдвигаем элементы массива
+    for (int i = index; i < arr->copiseti - 1; i++) {
+        arr->unit[i] = arr->unit[i + 1];
+    }
+
+    // Уменьшаем счетчик элементов
+    arr->copiseti--;
+
+    // Обнуляем последний элемент после сдвига
+    arr->unit[arr->copiseti].Objecte = NULL;
+    arr->unit[arr->copiseti].type = OBJ_NULL;
 }

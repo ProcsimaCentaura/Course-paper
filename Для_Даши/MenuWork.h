@@ -313,7 +313,7 @@ void Menu(SpaseAtlas* ATL) {
         case SAVE_THE_ATLAS:
             wprintf(L"\nВведите название файла для загрузки.\n");
             fflush(stdin);
-            scanf_s("%99s", &filename, 100);
+            filename = get_string(99);
             if (!save_spase_atlas(ATL, filename)) {
                 wprintf(L"Save failed!\n");
                 deleteSpaseAtlas(ATL);

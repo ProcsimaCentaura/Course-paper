@@ -65,30 +65,30 @@ ObjacteTipe* create_object_menu() {
     wprintf(L"\nВведите общие параметры:\n");
 
     // Ввод имени
-    fflush(stdin);
+    clear_input_buffer();
     wprintf(L"Название объекта (макс 50 символов): ");
     name = get_wstring(50);
 
     // Прямое восхождение
-    fflush(stdin);
+    clear_input_buffer();
     wprintf(L"\nПрямое восхождение:\n");
     ascent = input_direct_ascent();
 
     // Склонение
-    fflush(stdin);
+    clear_input_buffer();
     wprintf(L"Склонение (-90 до 90): ");
     scanf_s("%lf", &declination);
 
     // Расстояние
-    fflush(stdin);
+    clear_input_buffer();
     wprintf(L"Расстояние (в световых годах): ");
     scanf_s("%lf", &range);
 
     // Масса
-    fflush(stdin);
+    clear_input_buffer();
     wprintf(L"Масса (в солнечных массах): ");
     scanf_s("%lf", &mass);
-    fflush(stdin);
+    clear_input_buffer();
 
     ObjacteTipe* OBJ;
     OBJ = (ObjacteTipe*)malloc(sizeof(ObjacteTipe));
@@ -98,7 +98,7 @@ ObjacteTipe* create_object_menu() {
     case 1: { // Star
         wchar_t* star_class;
         double magnitude;
-        fflush(stdin);
+        clear_input_buffer();
         wprintf(L"\nВведите класс звезды (до 3 символов): ");
         star_class = get_wstring(3);
         fflush(stdin);
@@ -111,12 +111,12 @@ ObjacteTipe* create_object_menu() {
             declination, ascent, mass, info);;
         OBJ->type = OBJ_STAR;
         free(star_class);
-
+        break;
     }
 
     case 2: { // Black Hole
         wchar_t* bh_class;
-        fflush(stdin);
+        clear_input_buffer();
         wprintf(L"\nВведите класс черной дыры (до 50 символов): ");
         bh_class = get_wstring(50);
         ObjacteTipe* BH;
@@ -125,12 +125,12 @@ ObjacteTipe* create_object_menu() {
             declination, ascent, mass, info);;
         OBJ->type = OBJ_BLACKHOLE;
         free(bh_class);
-
+        break;
     }
 
     case 3: { // Nebula
         wchar_t* nebula_class;
-        fflush(stdin);
+        clear_input_buffer();
         wprintf(L"\nВведите класс туманности (до 100 символов): ");
         nebula_class = get_wstring(100);
         
@@ -140,44 +140,44 @@ ObjacteTipe* create_object_menu() {
             declination, ascent, mass, info);;
         NEB->type = OBJ_NEBULA;
         free(nebula_class);
-
+        break;
     }
 
     case 4: { // Pulsar
         double frequency, magnitude;
-        fflush(stdin);
+        clear_input_buffer();
         frequency = safe_get_double(L"\nВведите частоту пульсара (Гц): ", 0.0, DBL_MAX);
-        fflush(stdin);
+        clear_input_buffer();
         magnitude = safe_get_double(L"Звездная величина: ", 0.0, DBL_MAX);
-        fflush(stdin);
+        clear_input_buffer();
 
        
         OBJ->Objecte = (SpaseObgectDeterminant*)createOfPulsar(name, range, declination, ascent, mass,
             frequency, magnitude, info);
         OBJ->type = OBJ_NEBULA;
 
-
+        break;
     }
 
     case 5: { // Galaxy
         double count_stars;
-        fflush(stdin);
+        clear_input_buffer();
         count_stars = safe_get_double(L"\nВведите предполагаемое количество звезд: ", 0.0, DBL_MAX);
 
         OBJ->Objecte = (SpaseObgectDeterminant*)createOfGalaxy(name, range, declination, ascent, mass,
             count_stars, info);
         OBJ->type = OBJ_GALAXY;
-
+        break;
     }
 
     case 6: { // Star Cluster
         unsigned long count_stars;
-        fflush(stdin);
+        clear_input_buffer();
         count_stars = safe_get_double(L"\nВведите количество звезд: ", 0.0, INT_MAX);
         OBJ->Objecte = (SpaseObgectDeterminant*)createOfStarCluster(name, range, declination, ascent, mass,
             count_stars, info);
         OBJ->type = OBJ_STARCLASTER;
-
+        break;
     }
 
     default:
@@ -186,6 +186,7 @@ ObjacteTipe* create_object_menu() {
         return NULL;
     }
     free(name);
+    return OBJ;
 }
 
 void DestroyEllementMenu(SpaseAtlas* ATL) {

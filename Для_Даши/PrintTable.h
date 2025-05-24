@@ -10,7 +10,11 @@ inline static void format_declination(double dec, wchar_t* buffer) {
 
 // Основная функция вывода таблицы
 void print_table(struct SpaseAtlas* atlas) {
-
+    if (atlas==NULL)
+    {
+        wprintf(L"Ошибка, атлас не существует.");
+        return;
+    }
     printf("\x1b[2J");//Очистка консоли
     // Настройка локаализации для широких символов
     //Надо ввести функцию, разной посветки линии, в зависимости от типа объекта, например

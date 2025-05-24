@@ -4,6 +4,8 @@
 #include <string.h>
 #include <locale.h>//“ребуетс€ дл€ unicode(мне кажетс€ он не сработал)
 #include <wchar.h>
+#include <float.h>//–ади констант минимального и максимального значени€ float
+#include <ctype.h>//ƒл€ безопасности и защиты от дурака
 #include <windows.h>//“ребуетс€ дл€ рендера(размер консоли)
 #define _USE_MATH_DEFINES//¬озможно и без них можно обойтись, но пока не убираю
 #include <math.h>
@@ -49,4 +51,5 @@
 #include "FileWork.h"
 #include "SerchAndSort.h"
 #include "Test.h"
-#include "Menu.h"
+#include "Scanf.h"
+#include "MenuWork.h"

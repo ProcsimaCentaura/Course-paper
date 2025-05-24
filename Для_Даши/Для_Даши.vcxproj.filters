@@ -44,7 +44,10 @@
     <ClInclude Include="SerchAndSort.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Menu.h">
+    <ClInclude Include="Scanf.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuWork.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

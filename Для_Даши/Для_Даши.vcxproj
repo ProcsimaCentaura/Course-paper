@@ -133,7 +133,8 @@
   <ItemGroup>
     <ClInclude Include="FileWork.h" />
     <ClInclude Include="Header.h" />
-    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Scanf.h" />
+    <ClInclude Include="MenuWork.h" />
     <ClInclude Include="PrintTable.h" />
     <ClInclude Include="Rendering.h" />
     <ClInclude Include="SerchAndSort.h" />

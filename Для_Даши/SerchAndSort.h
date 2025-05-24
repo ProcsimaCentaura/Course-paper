@@ -358,4 +358,5 @@ SpaseAtlas* SerchInDiapazone(SpaseAtlas* atl, SerchType serchType, TypeOfObjecte
 			push_Back(result, obj->type, obj->Objecte);
 		}
 	}
+	return result;
 }

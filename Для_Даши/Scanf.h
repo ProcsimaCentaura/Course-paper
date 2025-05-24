@@ -1,13 +1,19 @@
 #pragma once
 
+// Прототипы вспомогательных функций
+void clear_input_buffer();
+int safe_get_int(const wchar_t* prompt, int min_val, int max_val);
+double safe_get_double(const wchar_t* prompt, double min_val, double max_val);
+
 //По поводу ввода с консоли.
 
 // Ввод широкой строки с консоли
 wchar_t* get_wstring(int max_len) {
     wchar_t* buffer = (wchar_t*)malloc((max_len + 1) * sizeof(wchar_t));
     if (!buffer) return NULL;
-
+    fflush(stdin);
     fgetws(buffer, max_len, stdin);
+    fflush(stdin);
     size_t len = wcslen(buffer);
     if (len > 0 && buffer[len - 1] == L'\n')
         buffer[len - 1] = L'\0';
@@ -18,8 +24,9 @@ wchar_t* get_wstring(int max_len) {
 char* get_string(int max_len) {
     char* buffer = (char*)malloc((max_len + 1) * sizeof(wchar_t));
     if (!buffer) return NULL;
-
+    fflush(stdin);
     fgets(buffer, max_len, stdin);
+    fflush(stdin);
     size_t len = strlen(buffer);
     if (len > 0 && buffer[len - 1] == L'\n')
         buffer[len - 1] = L'\0';
@@ -30,12 +37,9 @@ char* get_string(int max_len) {
 // Ввод прямого восхождения
 directAscent input_direct_ascent() {
     directAscent da;
-    wprintf(L"Enter hours (0-23): ");
-    scanf_s("%d", &da.hour);
-    wprintf(L"Enter minutes (0-59): ");
-    scanf_s("%d", &da.minutes);
-    wprintf(L"Enter seconds (0-59.999): ");
-    scanf_s("%lf", &da.seconds);
+    da.hour = safe_get_int(L"Enter hours (0-23): " , 0, 23);
+    da.minutes = safe_get_int(L"Enter minutes (0-59): ", 0, 59);
+    da.seconds = safe_get_double(L"Enter seconds (0-59.999): ", 0.0, 59.99999999);
     fflush(stdin);
     return da;
 }
@@ -45,10 +49,10 @@ ObjacteTipe* create_object_menu() {
     setlocale(LC_ALL, ""); // Для поддержки широких символов
 
     // Выбор типа объекта
-    wprintf(L"\nSelect object type:\n");
-    wprintf(L"1. Star\n2. Black Hole\n3. Nebula\n");
-    wprintf(L"4. Pulsar\n5. Galaxy\n6. Star Cluster\n");
-    wprintf(L"Choice: ");
+    wprintf(L"\nВыберите тип объекта:\n");
+    wprintf(L"1. Звезда\n2. Черная дыра\n3. Туманность\n");
+    wprintf(L"4. Пульсар\n5. Галактика\n6. Звездное скопление\n");
+    wprintf(L"Ваш выбор: ");
 
     int choice;
     scanf_s("%d", &choice);
@@ -60,26 +64,26 @@ ObjacteTipe* create_object_menu() {
     double declination, range, mass;
     INFO info = { NULL, 0 };
 
-    wprintf(L"\nEnter common parameters:\n");
+    wprintf(L"\nВведите общие параметры:\n");
 
     // Ввод имени
-    wprintf(L"Object name (max 50 chars): ");
+    wprintf(L"Название объекта (макс 50 символов): ");
     name = get_wstring(50);
 
     // Прямое восхождение
-    wprintf(L"\nDirect Ascent:\n");
+    wprintf(L"\nПрямое восхождение:\n");
     ascent = input_direct_ascent();
 
     // Склонение
-    wprintf(L"Declination (-90 to 90): ");
+    wprintf(L"Склонение (-90 до 90): ");
     scanf_s("%lf", &declination);
 
     // Расстояние
-    wprintf(L"Range (in light years): ");
+    wprintf(L"Расстояние (в световых годах): ");
     scanf_s("%lf", &range);
 
     // Масса
-    wprintf(L"Mass (in solar masses): ");
+    wprintf(L"Масса (в солнечных массах): ");
     scanf_s("%lf", &mass);
     fflush(stdin);
 
@@ -89,10 +93,10 @@ ObjacteTipe* create_object_menu() {
         wchar_t* star_class;
         double magnitude;
 
-        wprintf(L"\nEnter star class (up to 3 chars): ");
+        wprintf(L"\nВведите класс звезды (до 3 символов): ");
         star_class = get_wstring(3);
 
-        wprintf(L"Stellar magnitude: ");
+        wprintf(L"Звездная величина: ");
         scanf_s("%lf", &magnitude);
         fflush(stdin);
 
@@ -108,7 +112,7 @@ ObjacteTipe* create_object_menu() {
     case 2: { // Black Hole
         wchar_t* bh_class;
 
-        wprintf(L"\nEnter black hole class (up to 50 chars): ");
+        wprintf(L"\nВведите класс черной дыры (до 50 символов): ");
         bh_class = get_wstring(50);
         ObjacteTipe* BH;
         BH = (ObjacteTipe*)malloc(sizeof(ObjacteTipe));
@@ -122,7 +126,7 @@ ObjacteTipe* create_object_menu() {
     case 3: { // Nebula
         wchar_t* nebula_class;
 
-        wprintf(L"\nEnter nebula class (up to 100 chars): ");
+        wprintf(L"\nВведите класс туманности (до 100 символов): ");
         nebula_class = get_wstring(100);
         
         ObjacteTipe* NEB;
@@ -137,10 +141,10 @@ ObjacteTipe* create_object_menu() {
     case 4: { // Pulsar
         double frequency, magnitude;
 
-        wprintf(L"\nEnter pulsar frequency (Hz): ");
+        wprintf(L"\nВведите частоту пульсара (Гц): ");
         scanf_s("%lf", &frequency);
 
-        wprintf(L"Stellar magnitude: ");
+        wprintf(L"Звездная величина: ");
         scanf_s("%lf", &magnitude);
         fflush(stdin);
 
@@ -156,7 +160,7 @@ ObjacteTipe* create_object_menu() {
     case 5: { // Galaxy
         double count_stars;
 
-        wprintf(L"\nEnter estimated star count: ");
+        wprintf(L"\nВведите предполагаемое количество звезд: ");
         scanf_s("%lf", &count_stars);
         fflush(stdin);
         ObjacteTipe* GAL;
@@ -170,7 +174,7 @@ ObjacteTipe* create_object_menu() {
     case 6: { // Star Cluster
         unsigned long count_stars;
 
-        wprintf(L"\nEnter star count: ");
+        wprintf(L"\nВведите количество звезд: ");
         scanf_s("%lu", &count_stars);
         fflush(stdin);
 
@@ -183,7 +187,7 @@ ObjacteTipe* create_object_menu() {
     }
 
     default:
-        wprintf(L"Invalid choice!\n");
+        wprintf(L"Неверный выбор!\n");
         free(name);
         return NULL;
     }
@@ -226,10 +230,7 @@ enum CHOISE
 };
 
 
-// Прототипы вспомогательных функций
-void clear_input_buffer();
-int safe_get_int(const wchar_t* prompt, int min_val, int max_val);
-double safe_get_double(const wchar_t* prompt, double min_val, double max_val);
+
 
 
 // Вспомогательные функции безопасного ввода

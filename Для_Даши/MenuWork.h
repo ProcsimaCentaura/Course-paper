@@ -299,7 +299,7 @@ void Menu(SpaseAtlas* ATL) {
             }
 
             if (temp) {
-                deleteSpaseAtlas(temp);
+                free(temp);
             }
             break;
         }

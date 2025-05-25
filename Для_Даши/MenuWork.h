@@ -1,5 +1,17 @@
 #pragma once
-
+enum CHOISE
+{
+    OPEN_FILE = 1,
+    ADD_ELEMENT,
+    CHENGE_ELEMENT,
+    REMOVE_ELEMENT,
+    SORT_ATLAS,
+    SEARCH_ATLAS,
+    RENDER_SKY,
+    DISPLAY_TABLE,
+    SAVE_THE_ATLAS,
+    EXIT
+};
 
 void Menu(SpaseAtlas* ATL) {
     char STRCHOISE[100];
@@ -23,17 +35,17 @@ void Menu(SpaseAtlas* ATL) {
         wprintf(L"\n=== Меню программы ===\n");
         wprintf(L"1) Загрузить атлас из файла\n");
         wprintf(L"2) Добавить элемент\n");
-        wprintf(L"3) Удалить элемент\n");
-        wprintf(L"4) Сортировать элементы\n");
-        wprintf(L"5) Поиск элемента\n");
-        wprintf(L"6) Рендер звездного неба\n");
-        wprintf(L"7) Вывод таблицы объектов\n");
-        wprintf(L"8) Сохранить атлас в файле\n");
-        wprintf(L"9) Выйти из программы\n");
+        wprintf(L"3) Изменить элемент\n");
+        wprintf(L"4) Удалить элемент\n");
+        wprintf(L"5) Сортировать элементы\n");
+        wprintf(L"6) Поиск элемента\n");
+        wprintf(L"7) Рендер звездного неба\n");
+        wprintf(L"8) Вывод таблицы объектов\n");
+        wprintf(L"9) Сохранить атлас в файле\n");
+        wprintf(L"10) Выйти из программы\n");
         wprintf(L"Выберите действие: ");
 
         Choise = (CHOISE)safe_get_int(L"", 1, 9);
-        clear_input_buffer();
 
 
         switch (Choise)
@@ -63,6 +75,14 @@ void Menu(SpaseAtlas* ATL) {
             else {
                 wprintf(L"Ошибка создания объекта!\n");
             }
+            break;
+        case CHENGE_ELEMENT:
+            wprintf(L"\n=== Изменение объекта ===\n");
+            if (!ATL)
+            {
+                break;
+            }
+            edit_object_menu(ATL);
             break;
         case REMOVE_ELEMENT:
             wprintf(L"\nМеню уничтожения элемента: \n");
@@ -321,6 +341,7 @@ void Menu(SpaseAtlas* ATL) {
             }
             break;
         case EXIT:
+            clear_input_buffer();
             wprintf(L"\nВы уверены что хотите покинуть программу?\nЕсли да, нажмите любую клавишу кроме 0.");
             if (!getchar()) continue;
             deleteSpaseAtlas(ATL);

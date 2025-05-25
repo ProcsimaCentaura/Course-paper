@@ -19,16 +19,22 @@ static void printTipe(const ObjacteTipe* tipe) {
             break;
     case OBJ_STAR:
         printf("звезда");
+        break;
     case OBJ_BLACKHOLE:
         printf("черная дыра");
+        break;
     case OBJ_NEBULA:
         printf("туманность");
+        break;
     case OBJ_PULSAR:
         printf("пульсар");
+        break;
     case OBJ_GALAXY:
-        printf("галлактика");
+        printf("галактика");
+        break;
     case OBJ_STARCLASTER:
         printf("звездное скопление");
+        break;
     default:
         printf("неизвестный неинициированный тип");
         break;

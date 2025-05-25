@@ -122,7 +122,7 @@ BlackHole* createOfBlackHole(const wchar_t* name, double range,
 #ifdef _MSC_VER
 	wcsncpy_s(blackHole->tipe.name, nameLen, name, _TRUNCATE);
 #else
-	wcsncpy(star->tipe.name, name, nameLen - 1);
+	wcsncpy(blackHole->tipe.name, name, nameLen - 1);
 	blackHole->tipe.name[nameLen - 1] = L'\0';
 #endif
 	blackHole->tipe.range = range;
@@ -149,7 +149,7 @@ Nebula* createOfNebula(const wchar_t* name, double range,
 #ifdef _MSC_VER
 	wcsncpy_s(nebula->tipe.name, nameLen, name, _TRUNCATE);
 #else
-	wcsncpy(star->tipe.name, name, nameLen - 1);
+	wcsncpy(nebula->tipe.name, name, nameLen - 1);
 	nebula->tipe.name[nameLen - 1] = L'\0';
 #endif
 	nebula->tipe.range = range;
@@ -176,7 +176,7 @@ Pulsar* createOfPulsar(const wchar_t* name, double range,
 #ifdef _MSC_VER
 	wcsncpy_s(pulsar->tipe.name, nameLen, name, _TRUNCATE);
 #else
-	wcsncpy(star->tipe.name, name, nameLen - 1);
+	wcsncpy(pulsar->tipe.name, name, nameLen - 1);
 	pulsar->tipe.name[nameLen - 1] = L'\0';
 #endif
 	pulsar->tipe.range = range;
@@ -204,7 +204,7 @@ Galaxy* createOfGalaxy(const wchar_t* name, double range,
 #ifdef _MSC_VER
 	wcsncpy_s(galaxy->tipe.name, nameLen, name, _TRUNCATE);
 #else
-	wcsncpy(star->tipe.name, name, nameLen - 1);
+	wcsncpy(galaxy->tipe.name, name, nameLen - 1);
 	galaxy->tipe.name[nameLen - 1] = L'\0';
 #endif
 	galaxy->tipe.range = range;
@@ -231,7 +231,7 @@ StarCluster* createOfStarCluster(const wchar_t* name, double range,
 #ifdef _MSC_VER
 	wcsncpy_s(starCluster->tipe.name, nameLen, name, _TRUNCATE);
 #else
-	wcsncpy(star->tipe.name, name, nameLen - 1);
+	wcsncpy(starCluster->tipe.name, name, nameLen - 1);
 	starCluster->tipe.name[nameLen - 1] = L'\0';
 #endif
 	starCluster->tipe.range = range;
